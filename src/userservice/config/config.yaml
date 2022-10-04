@@ -1,0 +1,9 @@
+local:
+  server:
+    port: 3636
+  postgres:
+    host: localhost
+    port: 5432
+    user: root
+    password: password
+    db: user
