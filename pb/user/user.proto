@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package mirket;
 
-option go_package = "github.com/wralith/mirket/src/userservice/pb;pb";
+option go_package = "github.com/wralith/mirket/pb/user";
 
 service UserService {
     rpc AddUser(AddUserRequest) returns (AddUserResponse);

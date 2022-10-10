@@ -5,12 +5,12 @@ import (
 	"net"
 
 	"github.com/rs/zerolog/log"
+	pb "github.com/wralith/mirket/pb/user"
 	"github.com/wralith/mirket/src/userservice/app/config"
 	"github.com/wralith/mirket/src/userservice/app/grpcservice"
 	"github.com/wralith/mirket/src/userservice/app/logger"
 	"github.com/wralith/mirket/src/userservice/app/repo"
 	"github.com/wralith/mirket/src/userservice/db/postgres"
-	"github.com/wralith/mirket/src/userservice/pb"
 	"google.golang.org/grpc"
 )
 

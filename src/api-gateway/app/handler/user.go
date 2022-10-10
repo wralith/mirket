@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/wralith/mirket/src/api-gateway/pb"
+	pb "github.com/wralith/mirket/pb/user"
 )
 
 type userHandler struct {

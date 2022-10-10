@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/rs/zerolog/log"
+	pb "github.com/wralith/mirket/pb/user"
 	"github.com/wralith/mirket/src/api-gateway/app/config"
-	"github.com/wralith/mirket/src/api-gateway/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

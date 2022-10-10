@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/rs/zerolog/log"
+	pb "github.com/wralith/mirket/pb/user"
 	"github.com/wralith/mirket/src/userservice/app/repo"
-	"github.com/wralith/mirket/src/userservice/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
