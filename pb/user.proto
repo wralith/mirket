@@ -5,27 +5,28 @@ package mirket;
 option go_package = "github.com/wralith/mirket/src/userservice/pb;pb";
 
 service UserService {
-  rpc AddUser(AddUserRequest) returns (AddUserResponse);
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    rpc AddUser(AddUserRequest) returns (AddUserResponse);
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
 }
 
 message User {
-  uint32 id = 1;
-  string name = 2;
-  string email = 10;
-  string bio = 30;
+    uint32 id = 1;
+    string name = 2;
+    string email = 3;
+    string password = 4;
+    string bio = 30;
 }
 
 message AddUserRequest {
-  User user = 1;
+    User user = 1;
 }
 message AddUserResponse {
-  User user = 1;
+    User user = 1;
 }
 
 message GetUserRequest {
-  uint32 id = 1;
+    uint32 id = 1;
 }
 message GetUserResponse {
-  User user = 1;
+    User user = 1;
 }

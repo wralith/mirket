@@ -1,17 +1,13 @@
 package config
 
 import (
-	"log"
 	"os"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	*AppConfig
-}
-
-type AppConfig struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Logger   LoggerConfig
@@ -30,45 +26,41 @@ type PostgresConfig struct {
 }
 
 type LoggerConfig struct {
+	Level  string `yaml:"level"`
+	Pretty bool   `yaml:"pretty"`
 }
 
 func NewConfig() *Config {
-	appConfig := &AppConfig{}
-	appConfig.readAppConfig()
-
-	return &Config{AppConfig: appConfig}
+	c := &Config{}
+	c.readConfig()
+	return c
 }
 
-func (c *AppConfig) readAppConfig() {
+func (c *Config) readConfig() {
 	env := activeEnv()
-
-	log.Println("ACTIVE_PROFILE: ", env)
 	v := viper.New()
 
 	v.SetTypeByDefaultValue(true)
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")
-	v.AddConfigPath("./config")
+	v.AddConfigPath("./app/config")
 
 	err := v.ReadInConfig()
-
 	if err != nil {
-		panic("Unable to load app config, terminating: " + err.Error())
+		log.Panic().Err(err).Msg("Unable to load config")
 	}
 
 	sub := v.Sub(env)
 	err = sub.Unmarshal(c)
 	if err != nil {
-		panic("Unable to deserialize app config, terminating: " + err.Error())
+		log.Panic().Err(err).Msg("Unable to unmarshal config")
 	}
 }
 
 func activeEnv() string {
 	env, found := os.LookupEnv("ACTIVE_PROFILE")
-
 	if !found {
 		env = "local"
 	}
-
 	return env
 }
