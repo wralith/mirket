@@ -10,3 +10,15 @@ local:
   logger:
     level: debug
     pretty: true
+docker:
+  server:
+    port: 3636
+  postgres:
+    host: 172.17.0.1
+    port: 5432
+    user: root
+    password: password
+    db: user
+  logger:
+    level: info
+    pretty: false

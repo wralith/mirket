@@ -22,7 +22,7 @@ func NewUserService(repo repo.Repo) *userService {
 func (s *userService) AddUser(ctx context.Context, req *pb.AddUserRequest) (*pb.AddUserResponse, error) {
 	user := req.GetUser()
 	if user == nil {
-		log.Error().Msg("unable to get user data in AddUser()")
+		log.Error().Msg("unable to get user data from request body")
 		return nil, status.Error(codes.Internal, "unable to get user data")
 	}
 	log.Debug().Msg(user.String())
