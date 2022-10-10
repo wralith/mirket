@@ -1,0 +1,8 @@
+local:
+  server:
+    port: 8080
+  services:
+    user: localhost:3636
+  logger:
+    level: debug
+    pretty: true
