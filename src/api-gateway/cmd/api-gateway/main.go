@@ -17,6 +17,7 @@ func main() {
 	userH := handler.NewUserHandler(userSrv)
 
 	r.GET("/users/:id", userH.GetUser)
+	r.POST("/users", userH.AddUser)
 
 	panic(r.Start(":" + c.Server.Port))
 }
