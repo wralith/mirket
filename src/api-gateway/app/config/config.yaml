@@ -6,3 +6,11 @@ local:
   logger:
     level: debug
     pretty: true
+kube:
+  server:
+    port: 8080
+  services:
+    user: userservice:3636
+  logger:
+    level: info
+    pretty: false

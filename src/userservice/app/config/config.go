@@ -55,6 +55,11 @@ func (c *Config) readConfig() {
 	if err != nil {
 		log.Panic().Err(err).Msg("Unable to unmarshal config")
 	}
+
+	port := os.Getenv("PORT")
+	if port != "" {
+		c.Server.Port = port
+	}
 }
 
 func activeEnv() string {

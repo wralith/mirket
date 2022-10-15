@@ -10,7 +10,7 @@ local:
   logger:
     level: debug
     pretty: true
-docker:
+kube:
   server:
     port: 3636
   postgres:

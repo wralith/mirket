@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deployment
+  labels:
+    app: userservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+        - name: userservice
+          image: userservice:alpha
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3636
+          env:
+            - name: PORT
+              value: '3636'
+            - name: ACTIVE_PROFILE
+              value: kube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  type: ClusterIP
+  selector:
+    app: userservice
+  ports:
+    - port: 3636
+      name: grpc
+      targetPort: 3636

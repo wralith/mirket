@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mirket-api-gateway
+  labels:
+    app: mirket-api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mirket-api-gateway
+  template:
+    metadata:
+      labels:
+        app: mirket-api-gateway
+    spec:
+      containers:
+        - name: mirket-api-gateway
+          image: mirket-api-gateway:alpha
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: USER_SERVICE_ADDR
+              value: userservice:3636
+            - name: ACTIVE_PROFILE
+              value: kube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mirket-api-gateway
+spec:
+  type: LoadBalancer
+  selector:
+    app: mirket-api-gateway
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+      nodePort: 31000
