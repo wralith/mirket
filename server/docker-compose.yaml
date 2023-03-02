@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=mirket
+    container_name: postgres
+    ports:
+      - 5432:5432
+  user:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.user.dev
+    container_name: user
+    environment:
+      PORT: 80
+      PG_CONN_STR: postgresql://root:secret@postgres/mirket?sslmode=disable
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
