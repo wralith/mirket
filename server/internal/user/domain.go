@@ -42,4 +42,6 @@ func NewUser(opts NewUserOpts) *User {
 type Repo interface {
 	Create(context.Context, *User) error
 	GetByUsername(ctx context.Context, username string) (*User, error)
+	Get(ctx context.Context, id string) (*User, error)
+	Delete(ctx context.Context, id string) error
 }

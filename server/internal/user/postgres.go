@@ -27,7 +27,8 @@ func (r *PostgresRepo) Create(ctx context.Context, user *User) error {
 }
 
 func (r *PostgresRepo) GetByUsername(ctx context.Context, username string) (*User, error) {
-	query := `SELECT (id, username, email, hashed_password, about, created_at, updated_at) FROM "user" WHERE username=$1`
+	query := `SELECT (id, username, email, hashed_password, about, created_at, updated_at) FROM "user"
+	WHERE username=$1 AND deleted_at IS NULL`
 	var user User
 
 	err := r.db.QueryRow(ctx, query, username).Scan(&user)
@@ -35,4 +36,25 @@ func (r *PostgresRepo) GetByUsername(ctx context.Context, username string) (*Use
 		return nil, err
 	}
 	return &user, err
+}
+
+func (r *PostgresRepo) Get(ctx context.Context, id string) (*User, error) {
+	query := `SELECT (id, username, email, hashed_password, about, created_at, updated_at) FROM "user"
+	WHERE id=$1 AND deleted_at IS NULL`
+	var user User
+
+	err := r.db.QueryRow(ctx, query, id).Scan(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, err
+}
+
+func (r *PostgresRepo) Delete(ctx context.Context, id string) error {
+	query := `UPDATE "user" SET deleted_at = current_timestamp WHERE id=$1`
+
+	if _, err := r.db.Exec(ctx, query, id); err != nil {
+		return err
+	}
+	return nil
 }

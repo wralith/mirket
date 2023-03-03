@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/labstack/echo/v4"
 	"github.com/wralith/mirket/server/internal/user"
+	"github.com/wralith/mirket/server/pkg/valid"
 )
 
 func main() {
@@ -25,22 +27,15 @@ func main() {
 		panic(err)
 	}
 
-	// TODO: Move to test
 	repo := user.NewPostgresRepo(pool)
-	dummyUser := user.NewUser(user.NewUserOpts{
-		Username:       "wra",
-		Email:          "wralith",
-		HashedPassword: []byte("secret"),
-	})
+	svc := user.NewService(repo)
+	cnt := user.NewHTTPController(svc)
 
-	err = repo.Create(context.Background(), dummyUser)
-	if err != nil {
-		panic(err)
-	}
-	user, err := repo.GetByUsername(context.Background(), dummyUser.Username)
-	if err != nil {
-		panic(err)
-	}
+	e := echo.New()
+	e.Validator = &valid.Validator{Validator: validator.New()}
 
-	fmt.Printf("%+v\n", user)
+	g := e.Group("/users")
+	user.InitHTTPEndpoints(g, cnt)
+
+	e.Start(":" + config.App.Port)
 }
