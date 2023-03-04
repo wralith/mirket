@@ -44,4 +44,20 @@ type Repo interface {
 	GetByUsername(ctx context.Context, username string) (*User, error)
 	Get(ctx context.Context, id string) (*User, error)
 	Delete(ctx context.Context, id string) error
+	Update(ctx context.Context, user *User) error
+}
+
+func (u *User) UpdateEmail(email string) {
+	u.Email = email
+	u.UpdatedAt = time.Now()
+}
+
+func (u *User) UpdatePassword(hashedPassword []byte) {
+	u.HashedPassword = hashedPassword
+	u.UpdatedAt = time.Now()
+}
+
+func (u *User) UpdateAbout(about string) {
+	u.About = about
+	u.UpdatedAt = time.Now()
 }

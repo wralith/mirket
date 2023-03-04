@@ -58,3 +58,16 @@ func (r *PostgresRepo) Delete(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+// Maybe different queries for each?
+
+func (r *PostgresRepo) Update(ctx context.Context, user *User) error {
+	query := `UPDATE "user"
+	SET email = $1, hashed_password = $2, about = $3, updated_at = $4
+	WHERE id = $5`
+
+	if _, err := r.db.Exec(ctx, query, user.Email, user.HashedPassword, user.About, user.UpdatedAt, user.ID); err != nil {
+		return err
+	}
+	return nil
+}

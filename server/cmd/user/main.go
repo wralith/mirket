@@ -37,5 +37,5 @@ func main() {
 	g := e.Group("/users")
 	user.InitHTTPEndpoints(g, cnt)
 
-	e.Start(":" + config.App.Port)
+	e.Logger.Panic(e.Start(":" + config.App.Port))
 }

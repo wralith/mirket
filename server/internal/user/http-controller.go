@@ -64,6 +64,9 @@ func (cnt *HTTPController) Login(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "invalid credentials")
 	}
 	user, err := cnt.svc.GetByUsername(context.Background(), request.Username)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error()) // TODO: Handle
+	}
 	return c.JSON(http.StatusOK, user) // Send token or something.
 
 }
